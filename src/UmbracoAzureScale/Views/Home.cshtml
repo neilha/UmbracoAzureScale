@@ -1,0 +1,22 @@
+﻿@using UmbracoExamine;
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+
+    var contentCount = ApplicationContext.Current.Services.ContentService.Count();
+    var publishedCount = Model.Content.AncestorOrSelf().Descendants().Count() + 1;
+    var internalSearcher = ExamineManager.Instance.SearchProviderCollection["InternalSearcher"];
+    var internalsearchCriteria = internalSearcher.CreateSearchCriteria(IndexTypes.Content);
+    var examineInternalCount = internalSearcher.Search(internalsearchCriteria.Range("updateDate", DateTime.MinValue, DateTime.MaxValue).Compile()).Count();
+
+    var externalSearcher = ExamineManager.Instance.SearchProviderCollection["ExternalSearcher"];
+    var externalSearchCriteria = externalSearcher.CreateSearchCriteria(IndexTypes.Content);
+    var examineExternalCount = externalSearcher.Search(externalSearchCriteria.Range("updateDate", DateTime.MinValue, DateTime.MaxValue).Compile()).Count();
+}
+
+<p>Computer Name: @Environment.GetEnvironmentVariable("COMPUTERNAME")</p>
+<p>Instance ID: @Environment.GetEnvironmentVariable("WEBSITE_INSTANCE_ID")</p>
+<p>Content Count: @contentCount</p>
+<p>Published Count: @publishedCount</p>
+<p>Examine Internal Index Count: @examineInternalCount</p>
+<p>Examine External Index Count: @examineExternalCount</p>

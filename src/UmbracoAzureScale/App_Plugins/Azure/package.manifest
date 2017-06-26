@@ -1,0 +1,9 @@
+﻿{
+  javascript: [
+    "~/App_Plugins/azure/azure.resource.js",
+    "~/App_Plugins/azure/azure.controller.js"
+  ],
+  "css": [
+    "~/App_Plugins/azure/azure.css"
+  ]
+}
